@@ -1,8 +1,8 @@
-package main
+package console
 
 import (
-	"console"
 	"fmt"
+	"testing"
 	"strings"
 	"strconv"
 )
@@ -10,8 +10,8 @@ import (
 var (
 	ii int64 = 12
 	ff float64
-	bb bool
 	ss string
+	bb bool
 )
 
 type handler struct {}
@@ -24,7 +24,7 @@ type testFunc struct {}
 
 func (t *testFunc) ShareMethod(key, value string, help *string) {
 
-	c_ptr := console.GetPtr()
+	c_ptr := GetPtr()
 
 	if value == "help" {
 		*help = "test command"
@@ -42,14 +42,14 @@ func (t *testFunc) ShareMethod(key, value string, help *string) {
 		return
 	}
 
-	c_ptr.Printf(fmt.Sprintf("run test command with %t argument", arg))
+	c_ptr.Printf("run test command with %t argument", arg)
 }
 
-func main() {
+func TestCore(t *testing.T) {
 
 	h := &handler{}
 
-	c_ptr := console.GetPtr()
+	c_ptr := GetPtr()
 	c_ptr.Output(h)
 
 	// vars
@@ -58,13 +58,21 @@ func main() {
 	c_ptr.AddInt("ii", &ii)
 	c_ptr.AddString("ss", &ss)
 
+	c_ptr.Exec("set bb true")
 	c_ptr.Exec("set ii 22")
+	c_ptr.Exec("set ff 1.234")
+	c_ptr.Exec("set ss some_string")
+
 	c_ptr.Exec("get ii")
 	c_ptr.Exec("ls")
 
+	if !bb { t.Errorf("bb is false") }
+	if ff != 1.234 { t.Errorf("ff != 1.234") }
+	if ii != 22 { t.Errorf("ii != 22") }
+	if ss != "some_string" { t.Errorf("ss != 'some_string'") }
 
-	t := &testFunc{}
-	c_ptr.AddCommand("test", t.ShareMethod)
+	_t := &testFunc{}
+	c_ptr.AddCommand("test", _t.ShareMethod)
 
 	c_ptr.Exec("ls")
 	c_ptr.Exec("test")

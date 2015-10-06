@@ -81,8 +81,6 @@ func (c *console) Printf(format string, a ...interface{}) {
 
 func (c *console) Exec(command string) {
 
-	c.Printf(command)
-
 	if command == "" {
 		return
 	}

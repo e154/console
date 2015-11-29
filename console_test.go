@@ -77,4 +77,6 @@ func TestCore(t *testing.T) {
 	c_ptr.Exec("ls")
 	c_ptr.Exec("test")
 	c_ptr.Exec("test true")
+
+	c_ptr.Exec("set")
 }

@@ -157,7 +157,7 @@ func (c *console) set(name, value string, help *string) {
 //	}
 
 	// if non string? and 1 arg, bad command
-	if len(cmd) != 2 && c.variables[name] == nil && c.variables[name].typ_e != STRING {
+	if value == "" || (len(cmd) != 2 && c.variables[name] == nil && c.variables[name].typ_e != STRING) {
 		c.Printf("usage: set <variable> <value>\n")
 		return
 	}

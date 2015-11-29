@@ -152,13 +152,9 @@ func (c *console) set(name, value string, help *string) {
 	cmd := strings.Split(value, " ")
 	name = cmd[0]
 
-//	if c.variables[name] == nil {
-//		return "usage: set <variable> <value>\n"
-//	}
-
 	// if non string? and 1 arg, bad command
 	if value == "" || (len(cmd) != 2 && c.variables[name] == nil && c.variables[name].typ_e != STRING) {
-		c.Printf("usage: set <variable> <value>\n")
+		c.Printf("usage: set <variable> <value>")
 		return
 	}
 
@@ -172,7 +168,7 @@ func (c *console) set(name, value string, help *string) {
 	// check if exist
 	if c.variables[name] == nil {
 		// variable not found
-		c.Printf("unknown variable %s\n", name)
+		c.Printf("unknown variable %s", name)
 		return
 	}
 
